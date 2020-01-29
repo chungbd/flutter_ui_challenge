@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //   title: Text(widget.title),
       // ),
       body: 
-        Center(
+        SafeArea(
           child: Column(
                       children: <Widget>[
                         SizedBox(height: 30,),
