@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Center(
           child: Column(
                       children: <Widget>[
-                        SizedBox(height: 100,),
+                        SizedBox(height: 30,),
                         Expanded(
                           child: 
                             PageIndicatorContainer(
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               indicatorSelectorColor: Colors.black,
                             ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(height: 40,),
                         Row(
                           children: <Widget>[
                             Expanded(
@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         //   width: double.infinity,                          
                         //   child: ,
                         // ),
-                        SizedBox(height: 100,),
+                        SizedBox(height: 50,),
                       ],
                     ),
         )
