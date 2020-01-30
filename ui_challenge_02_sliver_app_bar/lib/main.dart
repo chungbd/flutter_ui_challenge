@@ -44,18 +44,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +53,55 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    var listView = ListView(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[                    
+                    Image.asset(
+                      "images/hanoi.png",
+                      filterQuality: FilterQuality.high,
+                    ),
+                    Positioned(
+                      top: 16,
+                      child: 
+                        IconButton(
+                          icon: Image.asset('images/ic_back.png'),
+                          // iconSize: 50,
+                          onPressed: () {
+                            print("Chung");
+                          },
+                        ),
+                    ),
+                    Positioned(
+                      bottom: 16,
+                      left: 16,
+                      child:
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Hanoi",
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                              ),
+                            ),
+                            SizedBox(height: 8,),
+                            Text("Vietnam",
+                              style: TextStyle(
+                                fontSize: 18,
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.white
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+                  ],
+                )
+              ],
+            );
     return Scaffold(
       // appBar: AppBar(
       //   // Here we take the value from the MyHomePage object that was created by
@@ -72,43 +109,21 @@ class _MyHomePageState extends State<MyHomePage> {
       //   title: Text(widget.title),
       // ),
       body:
-        ListView(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Image.asset(
-                  "images/hanoi.png",
-                  filterQuality: FilterQuality.high,
-                ),
-                IconButton(
-                  icon: Image.asset('images/ic_back.png'),
-                  iconSize: 36,
-                  onPressed: () {},
-                )                
-                // Container(
-                //   decoration: BoxDecoration(image: DecorationImage(image: Image.asset("images/ic_back.png"))),
-                // )
-                // InkWell(
-                //   child: ,
-                //   onTap: (){
-                    
-                //   },
-                // )
-              ],
-            )
-          ],
-        )
-        // CustomScrollView(
-        //   slivers: <Widget>[
-        //     // SliverAppBar(
-        //     //   pinned: true,
-        //     //   expandedHeight: 400.0,
-        //     //   flexibleSpace: ,
-        //     //   floating: true,
-        //     // ),
-                                
-        //   ],
-        // ),
+        Container(
+          color: Colors.red,
+          child: listView,
+          )
+    // CustomScrollView(
+    //   slivers: <Widget>[
+    //     // SliverAppBar(
+    //     //   pinned: true,
+    //     //   expandedHeight: 400.0,
+    //     //   flexibleSpace: ,
+    //     //   floating: true,
+    //     // ),
+                            
+    //   ],
+    // ),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
