@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_challenge_02_sliver_app_bar/destination.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,7 +45,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  List<Destination> destinations = [
+    Destination(
+      title: "One Pillar Pagoda",
+      travelAgent: "Vietnam Travel",
+      rating: 5,
+      numberOfRating: 650,
+      price: "450.000",
+      currency: "đ",
+      imageName: "images/one_pillar_pagoda.png",
+    ),
+    Destination(
+      title: "Ho Chi Minh Mausoleum",
+      travelAgent: "Vietnam Travel",
+      rating: 5,
+      numberOfRating: 700,
+      price: "750.000",
+      currency: "đ",
+      imageName: "images/ho_chi_minh_mausoleum.png",
+    ),
+    Destination(
+      title: "Hoàn Kiếm Lake",
+      travelAgent: "Vietnam Travel",
+      rating: 5,
+      numberOfRating: 900,
+      price: "1.500.000",
+      currency: "đ",
+      imageName: "images/hoan_kiem_lake.png",
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -56,10 +85,16 @@ class _MyHomePageState extends State<MyHomePage> {
     var listView = ListView(
               children: <Widget>[
                 Stack(
-                  children: <Widget>[                    
-                    Image.asset(
-                      "images/hanoi.png",
-                      filterQuality: FilterQuality.high,
+                  children: <Widget>[              
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                      child: Image.asset(
+                        "images/hanoi.png",
+                        filterQuality: FilterQuality.high,
+                      ),
                     ),
                     Positioned(
                       top: 16,
@@ -99,7 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                     ),
                   ],
-                )
+                ),
+                _createItemFrom(destinations[0])
               ],
             );
     return Scaffold(
@@ -110,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // ),
       body:
         Container(
-          color: Colors.red,
+          color: Color(0xfff3f5f7),
           child: listView,
           )
     // CustomScrollView(
@@ -126,5 +162,29 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Widget _createItemFrom(Destination destination) {
+    var aspectRatio = 
+      Container(
+        color: Colors.red,
+        height: 200,
+        child: 
+          AspectRatio(
+            aspectRatio: 16/9,
+            child: Image.asset(destination.imageName,
+            fit: BoxFit.contain,
+            ),
+          ),
+        );
+
+    return Stack(children: <Widget>[
+      Row(
+        children: <Widget>[
+          // Image.asset(destination.imageName),
+          aspectRatio,
+          
+      ],)
+    ],);
   }
 }
