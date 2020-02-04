@@ -82,109 +82,252 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    var listView = ListView(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[              
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                      child: Image.asset(
-                        "images/hanoi.png",
-                        filterQuality: FilterQuality.high,
-                      ),
-                    ),
-                    Positioned(
-                      top: 16,
-                      child: 
-                        IconButton(
-                          icon: Image.asset('images/ic_back.png'),
-                          // iconSize: 50,
-                          onPressed: () {
-                            print("Chung");
-                          },
+    var headerStack = Stack(
+                      children: <Widget>[              
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          child: Image.asset(
+                            "images/hanoi.png",
+                            filterQuality: FilterQuality.high,
+                          ),
                         ),
-                    ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      child:
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("Hanoi",
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
-                              ),
+                        Positioned(
+                          top: 44,
+                          child: 
+                            IconButton(
+                              icon: Image.asset('images/ic_back.png',width: 24,),
+                              // iconSize: 50,
+                              onPressed: () {
+                                print("Chung");
+                              },
                             ),
-                            SizedBox(height: 8,),
-                            Text("Vietnam",
-                              style: TextStyle(
-                                fontSize: 18,
-                                // fontWeight: FontWeight.bold,
-                                color: Colors.white
-                              ),
-                            ),
-                          ],
-                        )
-                    ),
-                  ],
-                ),
-                _createItemFrom(destinations[0])
-              ],
-            );
+                        ),
+                        Positioned(
+                          bottom: 16,
+                          left: 16,
+                          child:
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text("Hanoi",
+                                  style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white
+                                  ),
+                                ),
+                                SizedBox(height: 8,),
+                                Text("Vietnam",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    // fontWeight: FontWeight.bold,
+                                    color: Colors.white
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                      ],
+                    );
+    var listView = ListView.builder(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      itemCount: destinations.length,
+      itemBuilder: (BuildContext ctxt, int index) {
+      return _createItemFrom(destinations[index]);
+    });
     return Scaffold(
-      // appBar: AppBar(
-      //   // Here we take the value from the MyHomePage object that was created by
-      //   // the App.build method, and use it to set our appbar title.
-      //   title: Text(widget.title),
-      // ),
       body:
         Container(
           color: Color(0xfff3f5f7),
-          child: listView,
+          child: Column(
+            children: <Widget>[
+              headerStack,
+              Expanded(child: listView),
+            ],
+          ),
           )
-    // CustomScrollView(
-    //   slivers: <Widget>[
-    //     // SliverAppBar(
-    //     //   pinned: true,
-    //     //   expandedHeight: 400.0,
-    //     //   flexibleSpace: ,
-    //     //   floating: true,
-    //     // ),
-                            
-    //   ],
-    // ),
-// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
   Widget _createItemFrom(Destination destination) {
+    var screenSize = MediaQuery.of(context).size;
+    var actualHeight = screenSize.height * 0.2;
     var aspectRatio = 
-      Container(
-        color: Colors.red,
-        height: 200,
-        child: 
-          AspectRatio(
-            aspectRatio: 16/9,
-            child: Image.asset(destination.imageName,
-            fit: BoxFit.contain,
+     ClipRRect(
+       borderRadius: BorderRadius.all(Radius.circular(12)),
+       child: 
+        Container(
+          // color: Colors.red,
+          // height: actualHeight,
+          // width: 100,
+          child: 
+            AspectRatio(
+              aspectRatio: 270/432,
+              child: Image.asset(destination.imageName,
+              fit: BoxFit.contain,
+              ),
             ),
           ),
-        );
+     );
 
-    return Stack(children: <Widget>[
-      Row(
+    var titleStyle = TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                      );
+
+    var topColumn = 
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          // Image.asset(destination.imageName),
-          aspectRatio,
-          
-      ],)
-    ],);
+          Text(destination.title,
+            style: titleStyle,
+          ),                
+          Text(destination.travelAgent,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black38
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              getStarsFromRating(destination.rating),
+              SizedBox(width: 12,),
+              Text("${destination.numberOfRating} reviews",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black38
+                ),
+              ),
+
+            ],
+          ),
+        ],
+      );
+
+    var bottomColumn = 
+    Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Container(),
+        ),
+        Text("from",
+          style: TextStyle(
+            fontSize: 16,
+            // fontWeight: FontWeight.bold,
+            color: Colors.black26
+          ),
+        ),
+        Text(
+          destination.price + destination.currency,
+          style: titleStyle,
+        ),                                                      
+      ],
+    );
+
+    var textColumn = 
+      Column(
+        children: <Widget>[
+          Expanded(child: topColumn),
+          Expanded(child: bottomColumn),
+        ],
+      );
+
+    return 
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: 50,
+              right: 10,
+              child: 
+                ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 20,
+                          blurRadius: 20,
+                          offset: Offset(3, 27), // changes position of shadow
+                        ),
+                      ],
+                    ),                    
+                    child: 
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        height: actualHeight,
+                        color: Colors.white,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(12)),
+                          child:                    
+                            Container(
+                              color: Color(0xffdaf2f5),
+                              child: IconButton(
+                                    icon: Image.asset('images/ic_right_arrow.png',width: 24,),
+                                    // iconSize: 50,
+                                    onPressed: () {
+                                      print("Chung");
+                                    },
+                                  ),
+                            ),
+                        ),
+                      ),
+                  ),
+                )
+            ),
+            
+            Container(
+              height: actualHeight,
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: 
+                Row(
+                  children: <Widget>[
+                    aspectRatio,
+                    SizedBox(width: 8,),
+                    Expanded(child: textColumn)
+                  ],
+                ),
+            )
+          ],
+        ),
+      );
+    
+  }
+
+  Widget getStarsFromRating(int rating) {
+    if (rating < 0) {
+      return       
+        Icon(
+          Icons.star,
+          color: Colors.white10,
+        );
+    }
+    List<Widget> stars = [];
+
+    for (var i = 0; i < rating; i++) {
+      stars.add(
+        Image.asset(
+          "images/ic_star.png",
+          width: 18,
+        )
+      );
+      stars.add(SizedBox(width: 2,));
+    }
+
+    return Row(
+      children: stars,
+    );
   }
 }
