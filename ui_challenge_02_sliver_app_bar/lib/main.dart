@@ -133,12 +133,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     );
-    var listView = ListView.builder(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      itemCount: destinations.length,
-      itemBuilder: (BuildContext ctxt, int index) {
-      return _createItemFrom(destinations[index]);
-    });
+    var listView = 
+      ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        itemCount: destinations.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+        return _createItemFrom(destinations[index]);
+      });
     return Scaffold(
       body:
         Container(
@@ -146,12 +147,21 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget>[
               headerStack,
-              Expanded(child: listView),
+              Expanded(
+                child: 
+                  RefreshIndicator(child: listView, onRefresh: _onRefresh)
+                ),
             ],
           ),
           )
     );
   }
+  
+  Future<void> _onRefresh() async
+    {
+      print('refreshing stocks...');
+    
+    }
 
   Widget _createItemFrom(Destination destination) {
     var screenSize = MediaQuery.of(context).size;
@@ -175,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
      );
 
     var titleStyle = TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black
                       );
@@ -250,42 +260,43 @@ class _MyHomePageState extends State<MyHomePage> {
             Positioned(
               left: 50,
               right: 10,
-              child: 
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: Container(
+              child:
+                  Container(
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 20,
-                          blurRadius: 20,
-                          offset: Offset(3, 27), // changes position of shadow
+                          color: Color.fromRGBO(0, 0, 0, 0.1),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: Offset(2, 5), // changes position of shadow
                         ),
                       ],
                     ),                    
-                    child: 
-                      Container(
-                        alignment: Alignment.bottomRight,
-                        height: actualHeight,
-                        color: Colors.white,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(12)),
-                          child:                    
+                    child:
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        child:  
                             Container(
-                              color: Color(0xffdaf2f5),
-                              child: IconButton(
-                                    icon: Image.asset('images/ic_right_arrow.png',width: 24,),
-                                    // iconSize: 50,
-                                    onPressed: () {
-                                      print("Chung");
-                                    },
+                              alignment: Alignment.bottomRight,
+                              height: actualHeight,
+                              color: Colors.white,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(12)),
+                                child:                    
+                                  Container(
+                                    color: Color(0xffdaf2f5),
+                                    child: IconButton(
+                                          icon: Image.asset('images/ic_right_arrow.png',width: 24,),
+                                          // iconSize: 50,
+                                          onPressed: () {
+                                            print("Chung");
+                                          },
+                                        ),
                                   ),
+                              ),
                             ),
                         ),
-                      ),
-                  ),
-                )
+                      )
             ),
             
             Container(
