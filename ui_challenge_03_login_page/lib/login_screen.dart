@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ui_challenge_03_login_page/utilities/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,60 +13,69 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF73AEF5),
-                  Color(0xFF61A4F1),
-                  Color(0xFF47BDE0),
-                  Color(0xFF398AE5),
-                ],
-                // stops: [0.1, 0.4, 0.7, 0.9],
-              )
-            ),
-          ),
-          Container(
-            height: double.infinity,
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(
-                horizontal: 40.0,
-                vertical: 120.0
-              ),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold
+      body: 
+        AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: 
+            GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: 
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFF73AEF5),
+                            Color(0xFF61A4F1),
+                            Color(0xFF47BDE0),
+                            Color(0xFF398AE5),
+                          ],
+                          // stops: [0.1, 0.4, 0.7, 0.9],
+                        )
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 30,),
-                  _buildEmailTF(),
-                  SizedBox(height: 30,),
-                  _buildPasswordTF(),
-                  _buildForgotPasswordBtn(),
-                  _buildRememberMeBtn(),
-                  _buildLoginBtn(),
-                  _buildSignInWithText(),
-                  _buildSocialRow(),
-                  _buildSignUpButton(),
-                ], 
+                    Container(
+                      height: double.infinity,
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 40.0,
+                          vertical: 120.0
+                        ),
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Sign In',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            SizedBox(height: 30,),
+                            _buildEmailTF(),
+                            SizedBox(height: 30,),
+                            _buildPasswordTF(),
+                            _buildForgotPasswordBtn(),
+                            _buildRememberMeBtn(),
+                            _buildLoginBtn(),
+                            _buildSignInWithText(),
+                            _buildSocialRow(),
+                            _buildSignUpButton(),
+                          ], 
+                        ),
+                      ),
+                    )
+                  ],
               ),
-            ),
-          )
-        ],
-      )
+          ),
+        )
     );
   }
 
