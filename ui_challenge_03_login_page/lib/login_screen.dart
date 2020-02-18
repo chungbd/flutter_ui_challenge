@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_challenge_03_login_page/utilities/constants.dart';
+
+import 'bloc/authentication_bloc.dart';
+import 'bloc/login_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,71 +16,86 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: 
-        AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light,
-          child: 
-            GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: 
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xFF73AEF5),
-                            Color(0xFF61A4F1),
-                            Color(0xFF47BDE0),
-                            Color(0xFF398AE5),
-                          ],
-                          // stops: [0.1, 0.4, 0.7, 0.9],
-                        )
+    return 
+      Scaffold(
+        body: 
+          BlocProvider(
+            create: (context) {
+              var blocProvider = BlocProvider.of<AuthenticationBloc>(context);
+              return LoginBloc(
+                authenticationBloc: blocProvider,
+                userRepository: blocProvider.userRepository,
+              );
+            },
+            child: _buildBody(context),
+          )
+          
+      );
+  }
+
+  AnnotatedRegion<SystemUiOverlayStyle> _buildBody(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: 
+          GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: 
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF73AEF5),
+                          Color(0xFF61A4F1),
+                          Color(0xFF47BDE0),
+                          Color(0xFF398AE5),
+                        ],
+                        // stops: [0.1, 0.4, 0.7, 0.9],
+                      )
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40.0,
+                        vertical: 120.0
+                      ),
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Sign In',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          SizedBox(height: 30,),
+                          _buildEmailTF(),
+                          SizedBox(height: 30,),
+                          _buildPasswordTF(),
+                          _buildForgotPasswordBtn(),
+                          _buildRememberMeBtn(),
+                          _buildLoginBtn(),
+                          _buildSignInWithText(),
+                          _buildSocialRow(),
+                          _buildSignUpButton(),
+                        ], 
                       ),
                     ),
-                    Container(
-                      height: double.infinity,
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 40.0,
-                          vertical: 120.0
-                        ),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Sign In',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            SizedBox(height: 30,),
-                            _buildEmailTF(),
-                            SizedBox(height: 30,),
-                            _buildPasswordTF(),
-                            _buildForgotPasswordBtn(),
-                            _buildRememberMeBtn(),
-                            _buildLoginBtn(),
-                            _buildSignInWithText(),
-                            _buildSocialRow(),
-                            _buildSignUpButton(),
-                          ], 
-                        ),
-                      ),
-                    )
-                  ],
-              ),
-          ),
-        )
-    );
+                  )
+                ],
+            ),
+        ),
+      );
   }
 
   FlatButton _buildSignUpButton() {
@@ -185,7 +204,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   child: RaisedButton(
                     onPressed: () {
-
+                      BlocProvider.of<LoginBloc>(context).add(
+                        LoginButtonPressed(
+                          username: _usernameController.text,
+                          password: _passwordController.text,
+                        ),
+                      );
                     },
                     padding: EdgeInsets.symmetric(vertical: 15.0),
                     shape: RoundedRectangleBorder(
@@ -255,6 +279,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                 );
   }
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   Column _buildEmailTF() {
     return Column(
@@ -270,6 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerLeft,
                       height: 60,
                       child: TextField(
+                        controller: _usernameController,
                         keyboardType: TextInputType.emailAddress,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
@@ -302,6 +329,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerLeft,
                       height: 60,
                       child: TextField(
+                        controller: _passwordController,
                         obscureText: true,
                         keyboardType: TextInputType.emailAddress,
                         style: TextStyle(color: Colors.white),
